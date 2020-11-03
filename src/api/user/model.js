@@ -16,8 +16,6 @@ const UserSchema = new mongoose.Schema({
 }
 );
 
-
-
 // >> Here will be the pre methods for the schema.
 UserSchema.pre('save', function(next) {
   if(this.password && this.isModified('password')) {
@@ -28,9 +26,12 @@ UserSchema.pre('save', function(next) {
 
 
 // >> Here will be the User methods for the schema.
-UserSchema.methods.comparePassword = function(user, password) {
-  return bcrypt.compareSync(password, user.password);
+UserSchema.methods = {
+  comparePassword(password) {
+      return bcrypt.compareSync(password, this.password);
+  }
 };
+
 
 
 // >> Here will be the User model using the User schema.
